@@ -15,16 +15,19 @@ import updateUser from "../lib/updateUser";
 import updatePet from "../lib/updatePet";
 import returnPet from "../lib/returnPet";
 import savePet from "../lib/savePet";
+import getUser from "../lib/getUser";
 
 const Pet = ({ pet }) => {
   const [adopted, setAdopted] = useState(isAdopted);
+  const [fostered, setFostered] = useState(isFostered);
   const [saved, setSaved] = useState(isSaved);
   const [status, setStatus] = useState(pet.status);
   const [owner, setOwner] = useState(isUserOwner);
 
   const currentUser = useCurrentUser();
 
-  const isAdopted = useMemo(() => pet.status != "Available", [pet]);
+  const isAdopted = useMemo(() => pet.status == "Adopted", [pet]);
+  const isFostered = useMemo(() => pet.status == "Fostered", [pet]);
 
   const isUserOwner = useMemo(() => {
     const { adoptedPets, fosteredPets } = currentUser;
@@ -39,7 +42,16 @@ const Pet = ({ pet }) => {
     [currentUser, pet]
   );
 
-  const handleAdopt = useCallback(() => {
+  const handleAdopt = useCallback(async () => {
+    if (fostered) {
+      const user = await getUser(pet.userId);
+      const petIndex = user.fosteredPets.indexOf(pet._id);
+      const newFosteredPets = [...user.fosteredPets];
+      console.log(newFosteredPets);
+      newFosteredPets.splice(petIndex, 1);
+      console.log(newFosteredPets);
+      updateUser({ fosteredPets: newFosteredPets }, user._id);
+    }
     const newUserData = { adoptedPets: [...currentUser.adoptedPets, pet._id] };
     const newPetData = { userId: currentUser._id, status: "Adopted" };
     updateUser(newUserData, currentUser._id)
@@ -92,6 +104,7 @@ const Pet = ({ pet }) => {
   useEffect(() => {
     setOwner(isUserOwner);
     setAdopted(isAdopted);
+    setFostered(isFostered);
     setSaved(isSaved);
   }, [setOwner, isUserOwner, setAdopted, isAdopted, setSaved, isSaved]);
 
