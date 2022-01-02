@@ -1,6 +1,5 @@
 import { Typography, Box } from "@mui/material";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import MainCard from "./MainCard";
 import HeartBrokenOutlinedIcon from "@mui/icons-material/HeartBrokenOutlined";
 import CottageOutlinedIcon from "@mui/icons-material/CottageOutlined";
 import CottageIcon from "@mui/icons-material/Cottage";
@@ -9,6 +8,7 @@ import AddModeratorIcon from "@mui/icons-material/AddModerator";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import styled from "@emotion/styled";
+import MainCard from "./MainCard";
 import ActionButton from "./ActionButton";
 import useCurrentUser from "../hooks/useCurrentUser";
 import updateUser from "../lib/updateUser";
@@ -47,9 +47,7 @@ const Pet = ({ pet }) => {
       const user = await getUser(pet.userId);
       const petIndex = user.fosteredPets.indexOf(pet._id);
       const newFosteredPets = [...user.fosteredPets];
-      console.log(newFosteredPets);
       newFosteredPets.splice(petIndex, 1);
-      console.log(newFosteredPets);
       updateUser({ fosteredPets: newFosteredPets }, user._id);
     }
     const newUserData = { adoptedPets: [...currentUser.adoptedPets, pet._id] };
@@ -84,7 +82,7 @@ const Pet = ({ pet }) => {
 
   const handleReturn = useCallback(() => {
     returnPet(pet._id, currentUser._id)
-      .then((response) => {
+      .then(() => {
         setOwner(false);
         setAdopted(false);
         setStatus("Available");
@@ -95,7 +93,7 @@ const Pet = ({ pet }) => {
   const handleSave = useCallback(() => {
     const method = saved ? "delete" : "save";
     savePet(pet._id, currentUser._id, method)
-      .then((response) => {
+      .then(() => {
         setSaved((value) => !value);
       })
       .catch((error) => console.log(error));
