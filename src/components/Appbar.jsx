@@ -84,15 +84,6 @@ const StyledAppBar = styled(AppBar)`
   background-color: #494949;
 `;
 
-const StyledTextField = styled(TextField)`
-  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-    border-color: ${({ theme }) => theme.palette.secondary.main};
-  }
-  .css-1o9s3wi-MuiInputBase-input-MuiOutlinedInput-input {
-    color: ${({ theme }) => theme.palette.secondary.main};
-  }
-`;
-
 const StyledButton = styled(Button)`
   color: ${({ theme }) => theme.palette.secondary.main};
   border-color: ${({ theme }) => theme.palette.secondary.main};
@@ -107,6 +98,7 @@ const StyledToolbar = styled(Toolbar)`
 const ActionSection = styled(Box)`
   display: flex;
   flex-direction: row;
+  align-items: center;
   & > * {
     margin-right: 24px !important;
   }
