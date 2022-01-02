@@ -1,9 +1,10 @@
 import axios from "axios";
+import SERVER_URL from "./SERVER_URL";
 
 export default async function login(data) {
   const { email, password } = data;
   try {
-    const resData = await axios.post(`http://localhost:5000/login`, {
+    const resData = await axios.post(`${SERVER_URL}login`, {
       email,
       password,
     });
