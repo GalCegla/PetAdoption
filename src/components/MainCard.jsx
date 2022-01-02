@@ -40,13 +40,24 @@ const StyledCard = styled(Card)`
 
   @media (max-width: 1100px) {
     width: 80%;
+    flex-direction: column;
   }
 `;
 
-const StyledCardActionArea = styled(CardActionArea)``;
+const StyledCardActionArea = styled(CardActionArea)`
+  display: flex;
+`;
 
 const StyledMedia = styled(CardMedia)`
   width: 100%;
+  @media (max-width: 1100px) {
+    width: 40%;
+    align-self: center;
+  }
+  @media (max-width: 520px) {
+    min-width: 40%;
+    width: 100%;
+  }
 `;
 
 const StyledCardContent = styled(CardContent)`
